@@ -1,12 +1,4 @@
-var app = angular.module('myApp', ['angularMoment', 'ngAnimate', 'ngMessages']);
-
-
-app.controller('PostController', function($scope, post) {
-  $scope.post = post;
-  $scope.sort = 'rating';
-});
-
-app.factory('post', function postFactory() {
+window.app.factory('post', function postFactory() {
   var post = {};
   post.posts = [{
     author: 'Mike Dee',
@@ -71,9 +63,4 @@ app.factory('post', function postFactory() {
     return sortType;
   };
   return post;
-});
-
-app.controller('mainController', function() {
-  var vm = this;
-  vm.time = new Date();
 });
