@@ -54,6 +54,16 @@
   border: 1px solid #3fb618;
 }
 
+.form-horizontal textarea.ng-invalid.ng-touched {
+  border: 1px solid #ff0039;
+  outline: none;
+}
+
+.form-horizontal textarea.ng-valid.ng-touched {
+  border: 1px solid #3fb618;
+  outline: none;
+}
+
 .red-color {
   color: #ff0039;
   font-weight: 200;
