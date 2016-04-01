@@ -5,3 +5,23 @@
 .block-inline {
   display: inline-block;
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.description {
+  overflow: scroll;
+  height: 100px;
+}
+
+.jumbotron .description {
+  font-size: 16px;
+}
+.post {
+  height: 300px;
+}
+
+.text-right {
+  display: inline-block;
+}

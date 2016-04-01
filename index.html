@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cosmo/bootstrap.min.css">
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
-  <body>
-        <nav class="navbar navbar-default">
+  <body ng-controller="PostController" ng-cloak>
+    <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -21,7 +21,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a ng-click="">+ Submit Post</a></li>
+            <li><a ng-click="post.showSubmit = !post.showSubmit">+ Submit Post</a></li>
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
@@ -42,29 +42,29 @@
         </div>
       </div>
     </nav>
-    <div class="container" ng-controller="PostController">
-      <form class="form-horizontal" ng-submit="addPost()">
+    <div class="container">
+      <form ng-show="post.showSubmit" class="form-horizontal" ng-submit="post.addPost()">
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Title" ng-model="title" />
+            <input type="text" class="form-control" placeholder="Title" ng-model="post.title" />
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Author" ng-model="author" />
+            <input type="text" class="form-control" placeholder="Author" ng-model="post.author" />
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Image URL" ng-model="image_url" />
+            <input type="text" class="form-control" placeholder="Image URL" ng-model="post.image_url" />
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Description" ng-model="description" />
+            <input type="text" class="form-control" placeholder="Description" ng-model="post.description" />
           </div>
         </div>
         <br />
@@ -74,17 +74,21 @@
           </div>
         </div>
       </form>
-      <div class="jumbotron" ng-repeat="post in posts">
-        <div class="container">
-          <h1>{{ post.title }}</h1>
+      <div class="jumbotron post" ng-repeat="post in post.get()">
+        <div class="row">
           <div class="col-lg-3">
-            <img ng-src="{{ post.image_url }}" alt="{{ image_url }}"/>
+            <img ng-src="{{ post.image_url }}" alt="{{ post.image_url }}"/>
           </div>
-          <div class="col-lg-6 col-lg-offset-3">
-            <p>
+          <div class="col-lg-9">
+            <h2>
+              {{ post.title }}
+              <span class="glyphicon glyphicon-arrow-up"></span><span class="upVotes">0</span>
+              <span class="glyphicon glyphicon-arrow-down"></span><span class="downVotes">0</span>
+              <p class="text-right">By {{ post.author }}</p>
+            </h2>
+            <p class="description">
               {{ post.description }}
             </p>
-            <span><p>By {{ post.author }}</p></span>
             <div class="block-inline" ng-controller="mainController as main">
                 Posted <time am-time-ago="main.time"></time>
             </div>
