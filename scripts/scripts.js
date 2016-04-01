@@ -1,4 +1,5 @@
-var app = angular.module('myApp', ['angularMoment']);
+var app = angular.module('myApp', ['angularMoment', 'ngAnimate', 'ngMessages']);
+
 
 app.controller('PostController', function($scope, post) {
   $scope.post = post;
@@ -24,6 +25,7 @@ app.factory('post', function postFactory() {
     image_url: 'http://72.18.138.147/~san1ty76/wp-content/uploads/2010/11/butterfly-200x200.jpg',
     rating: 5,
     comments: [],
+    showComments: false,
     postComment: false,
   }];
   post.reverse = true;

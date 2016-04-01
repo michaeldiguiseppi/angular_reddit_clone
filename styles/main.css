@@ -18,6 +18,9 @@
 .jumbotron .description {
   font-size: 16px;
 }
+.jumbotron {
+  max-height: 100%;
+}
 .text-right {
   display: inline-block;
 }
@@ -44,14 +47,19 @@
 /*  Form Validations */
 
 .form-horizontal input.ng-invalid.ng-touched {
-    border: 1px solid #ff0039;
-  }
+  border: 1px solid #ff0039;
+}
 
-  .form-horizontal input.ng-valid.ng-touched {
-    border: 1px solid #3fb618;
-  }
+.form-horizontal input.ng-valid.ng-touched {
+  border: 1px solid #3fb618;
+}
 
-/* Diable the ability to select the text for anything you'll be clicking on */
+.red-color {
+  color: #ff0039;
+  font-weight: 200;
+  font-size: 20px;
+}
+/* Disable the ability to select the text for anything you'll be clicking on */
 
 .disable-selection {
      -moz-user-select: none; /* Firefox */
@@ -59,4 +67,36 @@
    -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
   -webkit-user-select: none; /* Chrome, Safari, and Opera */
   -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+
+/* Style the fade animations with the search. */
+.jumbotron.fadeNG {
+  -webkit-transition: 1s linear max-height;
+  -webkit-transition: 1s linear all;
+}
+
+.jumbotron.fadeNG.ng-enter {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.jumbotron.fadeNG.ng-enter.ng-enter-active {
+  opacity: 1;
+  max-height: 100%;
+  padding: inherit;
+}
+
+.jumbotron.fadeNG.ng-leave {
+  opacity: 1;
+  max-height: 100%;
+  padding: inherit;
+}
+
+.jumbotron.fadeNG.ng-leave.ng-leave-active {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
 }
