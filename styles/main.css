@@ -10,22 +10,22 @@
   display: none !important;
 }
 
+/* Styling the divs that make up each post */
 .description {
   overflow: scroll;
   height: 100px;
 }
-
 .jumbotron .description {
   font-size: 16px;
 }
-
 .text-right {
   display: inline-block;
 }
-
 .glyphicon {
   pointer-events: all;
 }
+
+/* Styling the votes */
 
 .red {
   color: red;
@@ -35,9 +35,13 @@
   color: #279800;
 }
 
+/* Styling the mouse cursor on all links */
+
 .pointer {
   cursor: pointer;
 }
+
+/*  Form Validations */
 
 .form-horizontal input.ng-invalid.ng-touched {
     border: 1px solid #ff0039;
@@ -46,6 +50,8 @@
   .form-horizontal input.ng-valid.ng-touched {
     border: 1px solid #3fb618;
   }
+
+/* Diable the ability to select the text for anything you'll be clicking on */
 
 .disable-selection {
      -moz-user-select: none; /* Firefox */
