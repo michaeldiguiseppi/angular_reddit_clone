@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": false,
   "author": "Michael DiGuiseppi",
+  "scripts": {
+    "start": "node ./server.js"
+  },
   "devDependencies": {
   },
   "engines": {
     "node": "5.1.0",
     "npm": "3.4.1"
-  },
-  "scripts": {
-    "test": "grunt test",
   },
   "dependencies": {
     "express": "4.13.3"
