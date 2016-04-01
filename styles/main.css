@@ -18,10 +18,39 @@
 .jumbotron .description {
   font-size: 16px;
 }
-.post {
-  height: 300px;
-}
 
 .text-right {
   display: inline-block;
+}
+
+.glyphicon {
+  pointer-events: all;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: #279800;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.form-horizontal input.ng-invalid.ng-touched {
+    border: 1px solid #ff0039;
+  }
+
+  .form-horizontal input.ng-valid.ng-touched {
+    border: 1px solid #3fb618;
+  }
+
+.disable-selection {
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer */
+   -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
 }

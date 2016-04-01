@@ -21,21 +21,19 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a ng-click="post.showSubmit = !post.showSubmit">+ Submit Post</a></li>
+            <li><a class="pointer" ng-click="post.showSubmit = !post.showSubmit">+ Submit Post</a></li>
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" class="form-control" placeholder="Search" ng-model="expression">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
           </form>
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sort By<span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#" ng-click="">Date</a></li>
-                <li><a href="#" ng-click="">Votes</a></li>
-                <li><a href="#" ng-click="">Comments</a></li>
+              <ul class="dropdown-menu" role="menu" ng-model="sort">
+                <li><a href="#" ng-click="sort='rating'; post.reverse=!post.reverse">Votes</a></li>
+                <li><a href="#" ng-click="sort='comments.length'; post.reverse=!post.reverse">Comments</a></li>
               </ul>
             </li>
           </ul>
@@ -43,66 +41,89 @@
       </div>
     </nav>
     <div class="container">
-      <form ng-show="post.showSubmit" class="form-horizontal" ng-submit="post.addPost()">
+      <form ng-show="post.showSubmit" class="form-horizontal" ng-submit="post.addPost()" novalidate name="postForm">
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Title" ng-model="post.title" />
+            <input type="text" class="form-control" placeholder="Title" ng-model="post.title" required/>
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Author" ng-model="post.author" />
+            <input type="text" class="form-control" placeholder="Author" ng-model="post.author" required/>
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Image URL" ng-model="post.image_url" />
+            <input type="text" class="form-control" placeholder="Image URL" ng-model="post.image_url" required/>
           </div>
         </div>
         <br />
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
-            <input type="text" class="form-control" placeholder="Description" ng-model="post.description" />
+            <input type="text" class="form-control" placeholder="Description" ng-model="post.description" required/>
           </div>
         </div>
         <br />
         <div class="row">
-          <div class="col-lg-6 col-lg-offset-3">
-            <button type="submit" class="btn btn-lg btn-info">Submit</button>
+          <div class="col-lg-2 col-lg-offset-5">
+            <button type="submit" class="btn btn-lg btn-info" ng-disabled="postForm.$invalid">Submit</button>
           </div>
         </div>
       </form>
-      <div class="jumbotron post" ng-repeat="post in post.get()">
+      <br />
+      <div class="jumbotron post" ng-repeat="postObj in post.get() | orderBy:sort:post.reverse | filter:expression">
         <div class="row">
           <div class="col-lg-3">
-            <img ng-src="{{ post.image_url }}" alt="{{ post.image_url }}"/>
+            <img ng-src="{{ postObj.image_url }}" alt="{{ postObj.image_url }}"/>
           </div>
           <div class="col-lg-9">
-            <h2>
-              {{ post.title }}
-              <span class="glyphicon glyphicon-arrow-up"></span><span class="upVotes">0</span>
-              <span class="glyphicon glyphicon-arrow-down"></span><span class="downVotes">0</span>
-              <p class="pull-right">By {{ post.author }}</p>
+            <h2 class="disable-selection">
+              {{ postObj.title }}
+              <span class="glyphicon glyphicon-arrow-up pointer" ng-click="post.upVote(postObj)"></span></span>
+              <span ng-click="post.downVote(postObj)"><span class="glyphicon glyphicon-arrow-down pointer"></span></span>&nbsp;&nbsp;<span class="votes" ng-class="{red: postObj.rating < 0, green: postObj.rating > 0}">{{ postObj.rating }}</span>
+              <p class="pull-right">By {{ postObj.author }}</p>
             </h2>
             <p class="description">
-              {{ post.description }}
+              {{ postObj.description }}
             </p>
             <div class="block-inline" ng-controller="mainController as main">
                 Posted <time am-time-ago="main.time"></time>
             </div>
+            &nbsp;<span><strong>|</strong></span>&nbsp;
+            <div class="block-inline disable-selection pointer" ng-click="postObj.showComments = !postObj.showComments">
+                {{ postObj.comments.length }} <ng-pluralize count="postObj.comments.length" when="{'one': 'comment', other: 'comments'}"></ng-pluralize>
+            </div>
+            &nbsp;<span><strong>|</strong></span>&nbsp;
+            <div class="block-inline pointer" ng-click="postObj.postComment = !postObj.postComment" >
+                + Add Comment
+            </div>
+            <br />
+            <div class="addComment" ng-show="postObj.postComment">
+              <br />
+              <form class="form-horizontal" ng-submit="post.addComment(post.name, post.text, postObj)" name="commentForm" novalidate>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="post.name" placeholder="Name" required/>
+                  </div>
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" ng-model="post.text" placeholder="Comment" required/>
+                  </div>
+                  <div class="col-lg-2">
+                    <button type="submit" class="btn btn-info btn-md" ng-disabled="commentForm.$invalid">Post Comment</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="comments" ng-show="postObj.showComments">
+              <h5 ng-repeat="comment in postObj.comments" class="smaller-text">
+                <strong>{{ comment.name }}</strong>: {{ comment.text }}
+              </h5>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <div class="jumbotron">
-          <div class="image block-inline">
-            <img src="http://rs255.pbsrc.com/albums/hh160/loewus9_photos/Waterfalls/1020Waterfall.jpg~c200" />
-          </div>
-          <div ng-controller="mainController as main">
-            Posted <time am-time-ago="main.time"></time>
-          </div>
-      </div> -->
     </div>
 
   <!-- Load jQuery -->
